@@ -1,6 +1,7 @@
 "use client";
 import { backendClient } from "@/app/helpers/axios";
 import { PasswordInput } from "@/components/common/PasswordInput";
+import { useAuthContext } from "@/contexts/AuthContext";
 import { AuthLayout } from "@/layout/authLayout";
 import {
   Button,
@@ -33,6 +34,8 @@ const LOGIN_FORM = Yup.object().shape({
 });
 
 export default function Login() {
+  const { setToken, setUser } = useAuthContext();
+
   const { push } = useRouter();
   const toast = useToast();
   const [genericError, setGenericError] = useState<Array<string>>([]);
@@ -45,8 +48,16 @@ export default function Login() {
         isClosable: true,
         status: "success",
       });
-      console.log(response);
-      // check if requiresPasswordChange is true
+
+      const token = response.data.access_token;
+      const requiresPasswordChange = response.data.requiresChange;
+      const user = response.data.user;
+      setUser(user);
+      setToken(token);
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("requiresPasswordChange", requiresPasswordChange);
+
       // push("/");
     } catch (error) {
       const isAxios = isAxiosError(error);
@@ -83,10 +94,9 @@ export default function Login() {
   return (
     <AuthLayout>
       <Flex flexDirection={"column"} alignItems={"center"} gap={2}>
-        <Heading>Register</Heading>
+        <Heading>Login</Heading>
         <Text textAlign={"center"}>
-          Sign up for free to experience shopping to the next level and buy
-          amazing crafts.
+          Login to experience shopping to the next level and buy amazing crafts.
         </Text>
       </Flex>
 

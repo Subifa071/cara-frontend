@@ -58,7 +58,9 @@ export default function Login() {
       localStorage.setItem("user", JSON.stringify(user));
       localStorage.setItem("requiresPasswordChange", requiresPasswordChange);
 
-      // push("/");
+      if (requiresPasswordChange) {
+        push("/users/profile?password_expired=1");
+      }
     } catch (error) {
       const isAxios = isAxiosError(error);
 

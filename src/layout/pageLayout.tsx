@@ -1,19 +1,19 @@
+"use client";
 import { Navbar } from "@/components/common/Navbar";
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 
-export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+export const PageLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Flex flexDirection={"column"}>
       <Navbar />
       <Flex
-        minH={"90vh"}
-        w={"500px"}
-        justifyContent={"center"}
+        minH={"100vh"}
+        w={"100vw"}
         margin={"auto"}
-        alignItems={"center"}
         flexDirection={"column"}
-        gap={5}
+        gap={1}
+        padding={10}
       >
         {children}
       </Flex>

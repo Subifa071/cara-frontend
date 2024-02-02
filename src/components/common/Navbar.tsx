@@ -1,10 +1,12 @@
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useCartContext } from "@/contexts/CartContext";
 import { Button, ButtonGroup, Flex, Heading, Text } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 
 export const Navbar = () => {
   const { push } = useRouter();
   const { user, logout, setToken, setUser } = useAuthContext();
+  const { length } = useCartContext();
   return (
     <Flex
       h={14}
@@ -30,12 +32,23 @@ export const Navbar = () => {
           </Text>
         )}
         <ButtonGroup>
-          <Button onClick={() => push("/users/login")}>Your Cart (0)</Button>
+          {!user?.isAdmin && (
+            <Button onClick={() => push("/users/cart")}>
+              Your Cart ({length})
+            </Button>
+          )}
+
           {!user ? (
             <Button onClick={() => push("/users/login")}>Login</Button>
           ) : (
             <>
-              <Button onClick={() => push("/users/profile")}>Profile</Button>
+              {user.isAdmin ? (
+                <Button onClick={() => push("/users/dashboard")}>
+                  Admin Dashboard
+                </Button>
+              ) : (
+                <Button onClick={() => push("/users/profile")}>Profile</Button>
+              )}
               <Button onClick={() => logout()}>Logout</Button>
               <></>
             </>

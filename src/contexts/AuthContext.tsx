@@ -12,6 +12,7 @@ export interface User {
   type: string;
   created_at: Date;
   updated_at: Date;
+  isAdmin: boolean;
 }
 
 export interface AuthContextProps {

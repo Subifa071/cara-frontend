@@ -26,7 +26,7 @@ import {
 } from "@chakra-ui/react";
 import { isAxiosError } from "axios";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import * as Yup from "yup";
 
@@ -63,6 +63,8 @@ const PROFILE_UPDATE_FORM = Yup.object().shape({
 
 export default function Profile() {
   const { push } = useRouter();
+  const { get } = useSearchParams();
+
   const { user, setUser } = useAuthContext();
   const toast = useToast();
   const [genericError, setGenericError] = useState<Array<string>>([]);
@@ -132,6 +134,16 @@ export default function Profile() {
       </Flex>
 
       <Grid w={"5xl"} templateColumns="repeat(2, 1fr)" gap={5} padding={10}>
+        {get("password_expired") && (
+          <GridItem colSpan={2}>
+            <Alert status="warning">
+              <AlertIcon />
+              <AlertTitle>
+                Your password is more than 60 days old, please change it!
+              </AlertTitle>
+            </Alert>
+          </GridItem>
+        )}
         {!user?.verified && (
           <GridItem colSpan={2}>
             <Alert status="warning">

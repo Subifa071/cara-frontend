@@ -60,6 +60,12 @@ export default function Login() {
 
       if (requiresPasswordChange) {
         push("/users/profile?password_expired=1");
+      } else {
+        if (user.isAdmin) {
+          push("/users/dashboard");
+        } else {
+          push("/");
+        }
       }
     } catch (error) {
       const isAxios = isAxiosError(error);

@@ -30,7 +30,7 @@ backendClient.interceptors.response.use(
     const path = window.location.pathname;
     if (error.response.status === 401) {
       localStorage.clear();
-      window.location.href = `/login?expired=true&redirect_uri=${path}`;
+      window.location.href = `/users/login`;
     } else {
       return new Promise((_, reject) => reject(error));
     }

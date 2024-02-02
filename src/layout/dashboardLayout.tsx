@@ -16,7 +16,7 @@ export const DashboardLayout = ({
   const { user } = useAuthContext();
 
   React.useEffect(() => {
-    if (!user?.isAdmin) {
+    if (user && !user?.isAdmin) {
       replace("/");
       toast({
         title: "You are not allowed to view this",

@@ -60,10 +60,10 @@ export const AuthContextProvider = ({
   };
 
   const logout = () => {
+    router.replace("/users/login");
     localStorage.clear();
     setUser(null);
     setToken(null);
-    router.replace("/users/login");
   };
 
   return (
